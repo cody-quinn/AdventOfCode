@@ -1,0 +1,11 @@
+[package]
+name = "AoC2022"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rust-crypto = "0.2.36"
+
+[[bin]]
+name = "1"
+path = "1/main.rs"
