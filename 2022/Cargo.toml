@@ -4,8 +4,13 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+itertools = "0.10.5"
 rust-crypto = "0.2.36"
 
 [[bin]]
 name = "1"
 path = "1/main.rs"
+
+[[bin]]
+name = "2"
+path = "2/main.rs"
