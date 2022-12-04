@@ -1,17 +1,6 @@
-#![allow(unused)]
+use std::collections::HashSet;
 
-use std::{collections::HashSet, ops::Add};
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-struct Pos(i32, i32);
-
-impl Add for Pos {
-    type Output = Self;
-
-    fn add(self, rhs: Self) -> Self::Output {
-        Self(self.0 + rhs.0, self.1 + rhs.1)
-    }
-}
+use aoc::pos::Pos;
 
 fn main() {
     let input = include_str!("input.txt");
@@ -24,7 +13,7 @@ fn main() {
     let mut visited = HashSet::<Pos>::new();
 
     visited.insert(santa);
-    for (i, c) in input.chars().enumerate() {
+    for c in input.chars() {
         let x = match c {
             '>' => Pos(1, 0),
             '<' => Pos(-1, 0),
@@ -34,10 +23,10 @@ fn main() {
         };
 
         if toggle {
-            robo = robo + x;
+            robo += x;
             visited.insert(robo);
         } else {
-            santa = santa + x;
+            santa += x;
             visited.insert(santa);
         }
 
