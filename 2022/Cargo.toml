@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+aoc = { path = "../lib" }
 itertools = "0.10.5"
 rust-crypto = "0.2.36"
 
@@ -18,3 +19,7 @@ path = "2/main.rs"
 [[bin]]
 name = "3"
 path = "3/main.rs"
+
+[[bin]]
+name = "4"
+path = "4/main.rs"
