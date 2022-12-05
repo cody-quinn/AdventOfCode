@@ -8,20 +8,21 @@ pub trait Parse {
 
 macro_rules! parse_tuples {
     ($($i1:ident)*, $($i2:ident)*, $($i3:tt)*) => {
-        impl Parse for ($(& $i2),*) {
-            type Output<F: FromStr> = ($($i1),*);
+        impl Parse for ($(& $i2 ,)*) {
+            type Output<F: FromStr> = ($($i1 ,)*);
 
             fn parse<F: FromStr>(&self) -> Result<Self::Output<F>, F::Err> {
                 Ok((
                     $(
-                        self.$i3.parse::<$i1>()?
-                    ),*
+                        self.$i3.parse::<$i1>()?,
+                    )*
                 ))
             }
         }
     };
 }
 
+parse_tuples!(F, str, 0);
 parse_tuples!(F F, str str, 0 1);
 parse_tuples!(F F F, str str str, 0 1 2);
 parse_tuples!(F F F F, str str str str, 0 1 2 3);
