@@ -4,16 +4,35 @@ use std::collections::HashSet;
 
 use aoc::parse::Parse;
 
-const TOUCHING: [(i32, i32); 5] = [(0, 0), (0, 1), (-1, 0), (1, 0), (0, -1)];
+// Change this to 2 for part 1, and 10 for part 2
+const KNOTS: usize = 10;
 
-fn print_graph(head: (i32, i32), tail: (i32, i32), history: &HashSet<(i32, i32)>) {
-    for y in -2..8 {
-        for x in -2..8 {
-            if head == (x, y) {
-                print!("H");
-            } else if tail == (x, y) {
-                print!("T");
-            } else if history.contains(&(x, y)) {
+const ADJACENT: [(i32, i32); 5] = [(0, 0), (0, 1), (-1, 0), (1, 0), (0, -1)];
+const DIAGONAL: [(i32, i32); 5] = [(0, 0), (-1, -1), (-1, 1), (1, -1), (1, 1)];
+
+const NEIGHBORS: [(i32, i32); 9] = [
+    (0, 0),
+    (0, 1),
+    (-1, 0),
+    (1, 0),
+    (0, -1),
+    (-1, -1),
+    (-1, 1),
+    (1, -1),
+    (1, 1),
+];
+
+fn print_graph(rope: &[(i32, i32)], history: &HashSet<(i32, i32)>) {
+    for y in (-16..16).rev() {
+        'outer: for x in -16..16 {
+            for (index, knot) in rope.iter().enumerate() {
+                if *knot == (x, y) {
+                    print!("{index}");
+                    continue 'outer;
+                }
+            }
+
+            if history.contains(&(x, y)) {
                 print!("#");
             } else {
                 print!(".");
@@ -24,11 +43,14 @@ fn print_graph(head: (i32, i32), tail: (i32, i32), history: &HashSet<(i32, i32)>
     println!();
 }
 
-fn challenge(input: &str) {
-    let mut head = (0, 0);
-    let mut tail = (0, 0);
+fn challenge(input: &str, debug: bool) {
+    let mut rope = [(0, 0); KNOTS];
+    let mut history = HashSet::<(i32, i32)>::new();
 
-    let mut tail_history = HashSet::<(i32, i32)>::new();
+    // Print the starting graph
+    if debug {
+        print_graph(&rope, &history);
+    }
 
     for line in input.lines() {
         let (direction, distance) = line.split_once(' ').unwrap();
@@ -43,62 +65,70 @@ fn challenge(input: &str) {
         };
 
         // Moving the head
-        'outer: for i in 0..distance {
-            print_graph(head, tail, &tail_history);
+        for _ in 0..distance {
+            // Moving the head knot
+            rope[0] = (rope[0].0 + direction.0, rope[0].1 + direction.1);
 
-            head = (head.0 + direction.0, head.1 + direction.1);
+            for index in 1..rope.len() {
+                let parent = rope[index - 1];
+                let knot = rope[index];
 
-            // Moving the tail
-            if head == tail {
-                tail_history.insert(tail);
-                continue 'outer;
-            }
-
-            for y in -1..=1 {
-                for x in -1..=1 {
-                    let overlap = (tail.0 + x, tail.1 + y);
-                    if overlap == head {
-                        tail_history.insert(tail);
-                        continue 'outer;
-                    }
-                }
-            }
-
-            for dir in TOUCHING {
-                let moved_tail = (tail.0 + dir.0, tail.1 + dir.1);
-                for dir in TOUCHING {
-                    let overlap = (moved_tail.0 + dir.0, moved_tail.1 + dir.1);
-                    if overlap == head {
-                        tail = moved_tail;
-                        tail_history.insert(tail);
-                        continue 'outer;
-                    }
-                }
-            }
-
-            for y in -1..=1 {
-                for x in -1..=1 {
-                    let moved_tail = (tail.0 + x, tail.1 + y);
-                    for dir in TOUCHING {
-                        let overlap = (moved_tail.0 + dir.0, moved_tail.1 + dir.1);
-                        if overlap == head {
-                            tail = moved_tail;
-                            tail_history.insert(tail);
-                            continue 'outer;
+                // Creating an inner scope so we can easily break from it
+                let moved_knot = 'inner: {
+                    // Checking if the knot is touching its parent
+                    for y in -1..=1 {
+                        for x in -1..=1 {
+                            let test = (knot.0 + x, knot.1 + y);
+                            if test == parent {
+                                break 'inner knot;
+                            }
                         }
                     }
-                }
+
+                    // Checking if the knot can be moved adjacently
+                    for direction in ADJACENT {
+                        let moved_knot = (knot.0 + direction.0, knot.1 + direction.1);
+                        for direction in ADJACENT {
+                            let test = (moved_knot.0 + direction.0, moved_knot.1 + direction.1);
+                            if test == parent {
+                                break 'inner moved_knot;
+                            }
+                        }
+                    }
+
+                    // Checking if the knot can be moved diagonally
+                    for direction in DIAGONAL {
+                        let moved_knot = (knot.0 + direction.0, knot.1 + direction.1);
+                        for direction in NEIGHBORS {
+                            let test = (moved_knot.0 + direction.0, moved_knot.1 + direction.1);
+                            if test == parent {
+                                break 'inner moved_knot;
+                            }
+                        }
+                    }
+
+                    knot
+                };
+
+                rope[index] = moved_knot;
+            }
+
+            // Finally printing the graph and updating the
+            history.insert(rope[rope.len() - 1]);
+
+            if debug {
+                print_graph(&rope, &history);
             }
         }
     }
 
-    let result = tail_history.len();
-    println!("{:?}", tail_history);
+    let result = history.len();
     println!("{result}");
 }
 
 fn main() {
-    challenge(include_str!("example.txt"));
-    println!();
-    // challenge(include_str!("input.txt"));
+    println!("Sample Set: ");
+    challenge(include_str!("example.txt"), true);
+    println!("\nReal Set: ");
+    challenge(include_str!("input.txt"), false);
 }
