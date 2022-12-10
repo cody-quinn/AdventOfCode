@@ -38,6 +38,5 @@ fn problem(input: &str) -> Result<String, Box<dyn std::error::Error>> {
 fn main() {
     let result1 = problem(include_str!("example.txt")).unwrap();
     let result2 = problem(include_str!("input.txt")).unwrap();
-    // let result2 = "";
     println!("Example Set: {}\n\nProblem Set: {}", result1, result2);
 }
