@@ -24,14 +24,13 @@ fn problem(input: &str) -> Result<String, Box<dyn std::error::Error>> {
         }
 
         if (register - 1..(register + 2)).contains(&cycle) {
-            write!(&mut image, "#")?;
+            write!(&mut image, "▓")?;
         } else {
-            write!(&mut image, ".")?;
+            write!(&mut image, " ")?;
         }
 
         register += value;
     }
-
     Ok(image)
 }
 
