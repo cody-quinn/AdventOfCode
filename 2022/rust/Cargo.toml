@@ -1,5 +1,5 @@
 [package]
-name = "AoC2022"
+name = "aoc2022"
 version = "0.1.0"
 edition = "2021"
 
@@ -9,40 +9,40 @@ itertools = "0.10.5"
 rust-crypto = "0.2.36"
 
 [[bin]]
-name = "2022_1"
-path = "1/main.rs"
+name = "2022_01"
+path = "01/main.rs"
 
 [[bin]]
-name = "2022_2"
-path = "2/main.rs"
+name = "2022_02"
+path = "02/main.rs"
 
 [[bin]]
-name = "2022_3"
-path = "3/main.rs"
+name = "2022_03"
+path = "03/main.rs"
 
 [[bin]]
-name = "2022_4"
-path = "4/main.rs"
+name = "2022_04"
+path = "04/main.rs"
 
 [[bin]]
-name = "2022_5"
-path = "5/main.rs"
+name = "2022_05"
+path = "05/main.rs"
 
 [[bin]]
-name = "2022_6"
-path = "6/main.rs"
+name = "2022_06"
+path = "06/main.rs"
 
 [[bin]]
-name = "2022_7"
-path = "7/main.rs"
+name = "2022_07"
+path = "07/main.rs"
 
 [[bin]]
-name = "2022_8"
-path = "8/main.rs"
+name = "2022_08"
+path = "08/main.rs"
 
 [[bin]]
-name = "2022_9"
-path = "9/main.rs"
+name = "2022_09"
+path = "09/main.rs"
 
 [[bin]]
 name = "2022_10"

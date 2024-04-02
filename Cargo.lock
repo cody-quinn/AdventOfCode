@@ -3,15 +3,6 @@
 version = 3
 
 [[package]]
-name = "AoC2022"
-version = "0.1.0"
-dependencies = [
- "aoc",
- "itertools",
- "rust-crypto",
-]
-
-[[package]]
 name = "aoc"
 version = "0.1.0"
 
@@ -26,6 +17,15 @@ dependencies = [
 
 [[package]]
 name = "aoc2021"
+version = "0.1.0"
+dependencies = [
+ "aoc",
+ "itertools",
+ "rust-crypto",
+]
+
+[[package]]
+name = "aoc2022"
 version = "0.1.0"
 dependencies = [
  "aoc",
