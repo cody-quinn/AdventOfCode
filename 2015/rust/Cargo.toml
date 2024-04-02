@@ -1,49 +1,41 @@
 [package]
-name = "AoC2022"
+name = "aoc2015"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-aoc = { path = "../lib" }
+aoc = { path = "../../lib/rust" }
 itertools = "0.10.5"
 rust-crypto = "0.2.36"
 
 [[bin]]
-name = "1"
+name = "2015_1"
 path = "1/main.rs"
 
 [[bin]]
-name = "2"
+name = "2015_2"
 path = "2/main.rs"
 
 [[bin]]
-name = "3"
+name = "2015_3"
 path = "3/main.rs"
 
 [[bin]]
-name = "4"
+name = "2015_4"
 path = "4/main.rs"
 
 [[bin]]
-name = "5"
+name = "2015_5"
 path = "5/main.rs"
 
 [[bin]]
-name = "6"
+name = "2015_6"
 path = "6/main.rs"
 
 [[bin]]
-name = "7"
-path = "7/main.rs"
-
-[[bin]]
-name = "8"
+name = "2015_8"
 path = "8/main.rs"
 
 [[bin]]
-name = "9"
-path = "9/main.rs"
-
-[[bin]]
-name = "10"
-path = "10/main.rs"
+name = "2015_23"
+path = "23/main.rs"

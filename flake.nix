@@ -9,25 +9,31 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, rust-overlay, ... }:
-  flake-utils.lib.eachSystem
-    [ "x86_64-linux" ]
-    (system:
-    let
+  outputs = { 
+    self, 
+    nixpkgs, 
+    flake-utils, 
+    rust-overlay, 
+    ... 
+  }:
+    flake-utils.lib.eachDefaultSystem (system: let
       overlays = [ (import rust-overlay) ];
       pkgs = import nixpkgs {
         inherit system overlays;
       };
-    in 
-    rec
-    {
-      devShell = pkgs.mkShell rec {
-        buildInputs = with pkgs; [
-          (rust-bin.selectLatestNightlyWith (toolchain: toolchain.default))
-          rust-analyzer
-        ];
 
-        LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath buildInputs;
-      };
-    });
+      rust = (pkgs.rust-bin.nightly."2024-03-27".default.override {
+        extensions = [ "rust-src" "rust-analyzer" ];
+      });
+    in 
+      {
+        devShell = pkgs.mkShell rec {
+          buildInputs = with pkgs; [
+            rust
+            dotnet-sdk_8
+          ];
+
+          DOTNET_ROOT = "${pkgs.dotnet-sdk_8}";
+        };
+      });
 }

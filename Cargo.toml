@@ -1,0 +1,7 @@
+[workspace]
+resolver = "2"
+members = [
+    "2015/rust",
+    "2021/rust",
+    "2022/rust",
+]

@@ -1,21 +1,21 @@
 [package]
-name = "aoc2015"
+name = "aoc2021"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-aoc = { path = "../lib" }
+aoc = { path = "../../lib/rust" }
 itertools = "0.10.5"
 rust-crypto = "0.2.36"
 
 [[bin]]
-name = "1"
+name = "2021_1"
 path = "1/main.rs"
 
 [[bin]]
-name = "2"
+name = "2021_2"
 path = "2/main.rs"
 
 [[bin]]
-name = "3"
+name = "2021_3"
 path = "3/main.rs"
