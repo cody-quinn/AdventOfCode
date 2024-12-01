@@ -1,0 +1,9 @@
+[
+  {
+    "label": "Run Zig file",
+    "command": "zig run $ZED_FILE",
+    "reveal": "no_focus",
+    "hide": "never",
+    "shell": "system"
+  }
+]

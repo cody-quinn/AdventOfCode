@@ -18,6 +18,8 @@
             rustc
             cargo
             dotnet-sdk_8
+            zig
+            zls
           ];
 
           DOTNET_ROOT = "${pkgs.dotnet-sdk_8}";
