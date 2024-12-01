@@ -5,6 +5,8 @@ open FParsec
 
 let input = File.ReadAllText(Path.Join(__SOURCE_DIRECTORY__, "input.txt"))
 
+let (<?|>) lhs rhs = attempt lhs <|> rhs
+
 type Amount =
   | Red of int
   | Green of int
@@ -12,20 +14,13 @@ type Amount =
 
 let ws = pchar ' '
 
-let pred = pstring "red"
-let pgreen = pstring "green"
-let pblue = pstring "blue"
+let pcolor label constructor = pint32 .>> pchar ' ' .>> pstring label |>> constructor
 
-let pamount =
-  many ws >>. pint32 .>> pchar ' ' .>>. (pred <|> pgreen <|> pblue)
-  |>> (fun (i, c) ->
-    match c with
-    | "red" -> Red i
-    | "green" -> Green i
-    | "blue" -> Blue i
-    | _ ->
-      eprintfn "Unreachable"
-      exit 1)
+let pred = pcolor "red" Red
+let pgreen = pcolor "green" Green
+let pblue = pcolor "blue" Blue
+
+let pamount = many ws >>. (pred <?|> pgreen <?|> pblue)
 
 let pround = sepBy pamount (pchar ',')
 let prounds = sepBy pround (pchar ';')
@@ -59,9 +54,9 @@ let partOne =
 
 let partTwo =
   let reducer (r0, g0, b0) (r1, g1, b1) =
-    let r = if r1 > r0 then r1 else r0
-    let g = if g1 > g0 then g1 else g0
-    let b = if b1 > b0 then b1 else b0
+    let r = max r0 r1
+    let g = max g0 g1
+    let b = max b0 b1
     (r, g, b)
 
   games
