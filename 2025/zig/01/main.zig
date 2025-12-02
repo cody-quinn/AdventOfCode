@@ -3,7 +3,7 @@ const mem = std.mem;
 
 pub fn main() !void {
     const input: []const u8 = @embedFile("input.txt");
-    const part1, const part2 = problem(input);
+    const part1, const part2 = try problem(input);
     std.debug.print("Part 1: {}\n", .{part1});
     std.debug.print("Part 2: {}\n", .{part2});
 }
@@ -45,6 +45,6 @@ test "Sample Input" {
     const part1, const part2 = try problem(input);
     std.debug.print("Part 1: {}\n", .{part1});
     std.debug.print("Part 2: {}\n", .{part2});
-    try std.testing.expectEqual(part1, 3);
-    try std.testing.expectEqual(part2, 6);
+    try std.testing.expectEqual(3, part1);
+    try std.testing.expectEqual(6, part2);
 }
